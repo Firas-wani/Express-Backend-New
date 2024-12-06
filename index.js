@@ -9,7 +9,7 @@ const {config} = require('dotenv');
 config("/.env")
 const port = process.env.PORT
 const {handleSignUp, handleLogin, getUserDetails, editUser, deleteUser, handleLogout} = require("./utils/controllers/userController")
-const verifyUser = require('../backend/utils/controllers/verifyUser')
+const verifyUser = require('./utils/controllers/verifyUser')
 
 
 const {handleAddProducts, getProducts } = require("./utils/controllers/productController");

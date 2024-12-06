@@ -82,7 +82,7 @@ const getUserDetails = async (req, res) => {
   try {
     const _id = req.user;
     if (_id) {
-      const getUser = await User.findById(_id);
+      const getUser = await User.findById(_id).populate("orders");
       return res.json({ userDetails: getUser });
     }
   } catch (error) {
