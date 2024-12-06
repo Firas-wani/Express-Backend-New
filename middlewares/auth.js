@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const {config} = require("dotenv");
 config("/.env");
-const  {messageHandler} = require ("../utils/utils")
+const  { messageHandler } = require ("../utils/utils")
 const User = require("../models/userModel")
 
 

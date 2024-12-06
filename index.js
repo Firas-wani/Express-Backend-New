@@ -11,12 +11,14 @@ const port = process.env.PORT
 const {handleSignUp, handleLogin, getUserDetails, editUser, deleteUser, handleLogout} = require("./utils/controllers/userController")
 const verifyUser = require('../backend/utils/controllers/verifyUser')
 
+
 const {handleAddProducts, getProducts } = require("./utils/controllers/productController");
 const {createCartOrder} = require("./utils/controllers/orderController")
 const {addDeliveryDetails} = require("./utils/controllers/delivery")
 const {addToCart, removeFromCart, emptyCart, getCart}= require("./utils/controllers/cartHandler")
 const multmid = require('./middlewares/multer');
 const {isAuthenticated, isAdmin} = require('./middlewares/auth');
+const { handleCategory } = require('./utils/controllers/feature');
 
 server.use(express.json())
 server.use(bodyParser.json())

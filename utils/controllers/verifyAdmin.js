@@ -1,5 +1,5 @@
-const User = require("../../models/userModel");
-const {messageHandler} = require("../utils");
+const User =  require("../../models/userModel");
+const { messageHandler } = require("../utils");
 const {config} = require("dotenv");
 config("/.env");
 

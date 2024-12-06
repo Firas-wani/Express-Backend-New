@@ -1,6 +1,6 @@
 const Product = require("../../models/productModel");
 const {memoryStorage} = require("multer");
-const messageHandler = require('../utils');
+const { messageHandler } = require('../utils');
 
 
 const handleCategory = async(req, res, category) =>{

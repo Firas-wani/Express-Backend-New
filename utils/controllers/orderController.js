@@ -1,7 +1,7 @@
 const User = require("../../models/userModel");
 const Product = require("../../models/productModel");
 const Order = require("../../models/orderModel");
-const messageHandler = require("../utils");
+const { messageHandler } = require("../utils");
 
 
 const createCartOrder = async(req,res)=>{

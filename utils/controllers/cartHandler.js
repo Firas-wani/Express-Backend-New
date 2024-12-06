@@ -1,6 +1,6 @@
 const Product = require("../../models/productModel");
 const User = require("../../models/userModel");
-const {messageHandler}  = require("../../utils/utils");
+const { messageHandler }  = require("../../utils/utils");
 
 const addToCart = async (req, res) => {
     try {

@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const messageHandler = require("../../utils/utils");
+const { messageHandler } = require("../../utils/utils");
 const {config} = require("dotenv")
 config("/.env")
 
