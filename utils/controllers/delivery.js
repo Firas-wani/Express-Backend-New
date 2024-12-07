@@ -6,19 +6,21 @@ const userId = req.user;
 const {mobile, fullname, street, landmark, state, city, pincode}  = req.body;
 const credentials = {mobile, fullname, street, landmark, state, city, pincode}    
 const someEmpty = Object.values(credentials).some(value => !value)
-console.log(someEmpty);
+// console.log(someEmpty);
 
 if(someEmpty){
  return   res.status(206).json({message:"All credentials required"})
 }
-const user = await User.findByIdAndUpdate(userId,{
-    mobile, fullname, street, landmark, state, city,   pincode
-})
-if(user){
-    return res.status(200).json({message:"Delivery Details Updated"})
-}else{
-    return res.status(400).json({ message: "User not found or update failed" });
+const user = await User.findById(userId)
+if(!user){
+    return res.json({message:'user not found'})
 }
+user.addresses.push(credentials)
+await user.save()
+return res.json({message:"Address Updated"})
+
+
+
     } catch (error) {
         console.log(error);
         

@@ -15,7 +15,7 @@ if(adminEmail === usermail){
 }else{
     return messageHandler(res,202,"Unauthorized")
 }
-console.log(adminEmail);
+// console.log(adminEmail);
 } catch (error) {
         console.log(error);
         

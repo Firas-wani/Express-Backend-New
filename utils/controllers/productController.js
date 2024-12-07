@@ -1,16 +1,19 @@
 const User = require("../../models/userModel");
 const Product = require("../../models/productModel");
+// const Order = require('../../models/orderModel');
 const cloudinary = require("cloudinary").v2;
 const { messageHandler } = require("../utils");
 const path = require("path");
 const { config } = require("dotenv");
 config("/.env");
+const braintree = require("braintree");
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.API_KEY,
   api_secret: process.env.API_SECRET,
 });
+
 
 const handleAddProducts = async (req, res) => {
   try {
@@ -89,4 +92,7 @@ const searchProducts = async (req, res) => {
 };
 
 
-module.exports = { handleAddProducts, getProducts, searchProducts};
+
+
+
+module.exports = { handleAddProducts, getProducts, searchProducts}

@@ -14,7 +14,7 @@ const verifyUser = require('./utils/controllers/verifyUser')
 
 
 const { verifyAdmin } = require('./utils/controllers/verifyAdmin')
-const {handleAddProducts, getProducts, searchProducts } = require("./utils/controllers/productController");
+const {handleAddProducts, getProducts, searchProducts, braintreeTokenController, brainTreePaymentController } = require("./utils/controllers/productController");
 const {createCartOrder} = require("./utils/controllers/orderController")
 const {addDeliveryDetails} = require("./utils/controllers/delivery")
 const {addToCart, removeFromCart, emptyCart, getCart}= require("./utils/controllers/cartHandler")
@@ -55,7 +55,6 @@ server.post("/products/add", isAuthenticated, multmid,  handleAddProducts)
 server.get("/user/isAdmin", isAuthenticated, verifyAdmin);
 server.get("/products/getproducts", getProducts)
 server.get("/search", searchProducts)
-
 
 
 //catagory

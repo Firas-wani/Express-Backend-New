@@ -7,7 +7,7 @@ const addToCart = async (req, res) => {
       const userId = req.user;
       const productId = req.params.productId;
       const { quantity  } = req.body;
-  console.log(quantity);
+  // console.log(quantity);
   
       const user = await User.findById(userId);
       if (!user) {
