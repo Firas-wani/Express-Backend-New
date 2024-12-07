@@ -29,7 +29,8 @@ const handleSignUp = async (req, res) => {
           const data = `Your account has been registered with Us ... kindly click on the below link    ${link} to actiavte your account  and confirm you Email`;
 
           const mail = await transporter.sendMail({
-            from: "wanifiras7@gmail.com",
+            // from: "wanifiras7@gmail.com",
+            from: process.env.ADMIN_EMAIL,
             to: `${email}`,
             subject: `Welecome ${username}`,
             text: data,
@@ -82,7 +83,7 @@ const getUserDetails = async (req, res) => {
   try {
     const _id = req.user;
     if (_id) {
-      const getUser = await User.findById(_id);
+      const getUser = await User.findById(_id).populate("orders");
       return res.json({ userDetails: getUser });
     }
   } catch (error) {
@@ -144,6 +145,92 @@ const handleLogout = async (req, res) => {
   }
 };
 
+const handleForgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ msg: "Email is required" });
+    }
+
+    // Check if the user exists
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    // Generate a password reset token
+    const resetToken = jwt.sign({ _id: user._id }, secretKey, { expiresIn: "1h" });
+
+    // Create a reset password link
+    const baseUrl = "http://localhost:3000"; 
+    const resetLink = `${baseUrl}/reset-password/${resetToken}`;
+
+    // Email message body
+    const message = `
+      Hi ${user.username}, 
+
+      We received a request to reset your password. Click the link below to reset it: 
+      ${resetLink}
+
+      If you did not request a password reset, please ignore this email.
+      
+      The link will expire in 1 hour.
+
+      Regards, 
+      Your App Team
+    `;
+
+    // Send email with reset link
+    const mail = await transporter.sendMail({
+      from: "wanifiras7@gmail.com",
+      to: `${email}`,
+      subject: "Password Reset Request",
+      text: message,
+    });
+
+    if (mail) {
+      return res.status(200).json({ msg: "Password reset link sent to your email" });
+    } else {
+      return res.status(500).json({ msg: "Error sending reset email" });
+    }
+  } catch (error) {
+    console.error("Error in handleForgotPassword:", error);
+    return res.status(500).json({ msg: "An error occurred. Please try again later." });
+  }
+};
+const handleResetPassword = async (req, res) => {
+  try {
+    const { token, newPassword } = req.body;
+
+    if (!token || !newPassword) {
+      return res.status(400).json({ msg: "All fields are required" });
+    }
+
+    // Verify the token
+    const decoded = jwt.verify(token, secretKey);
+    const userId = decoded._id;
+
+    // Find the user
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ msg: "Invalid token or user does not exist" });
+    }
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update user's password
+    user.password = hashedPassword;
+    await user.save();
+
+    return res.status(200).json({ msg: "Password has been reset successfully" });
+  } catch (error) {
+    console.error("Error in handleResetPassword:", error);
+    return res.status(500).json({ msg: "An error occurred. Please try again later." });
+  }
+};
+
 module.exports = {
   handleSignUp,
   handleLogin,
@@ -151,4 +238,6 @@ module.exports = {
   editUser,
   deleteUser,
   handleLogout,
+  handleForgotPassword ,
+  handleResetPassword,
 };

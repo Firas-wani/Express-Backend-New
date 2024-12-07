@@ -8,11 +8,11 @@ const {config} = require('dotenv');
 
 config("/.env")
 const port = process.env.PORT
-const {handleSignUp, handleLogin, getUserDetails, editUser, deleteUser, handleLogout} = require("./utils/controllers/userController")
+const {handleSignUp, handleLogin, getUserDetails, editUser, deleteUser, handleLogout, handleForgotPassword, handleResetPassword} = require("./utils/controllers/userController")
 const verifyUser = require('../backend/utils/controllers/verifyUser')
 
-
-const {handleAddProducts, getProducts } = require("./utils/controllers/productController");
+const { verifyAdmin } = require('./utils/controllers/verifyAdmin')
+const {handleAddProducts, getProducts, searchProducts } = require("./utils/controllers/productController");
 const {createCartOrder} = require("./utils/controllers/orderController")
 const {addDeliveryDetails} = require("./utils/controllers/delivery")
 const {addToCart, removeFromCart, emptyCart, getCart}= require("./utils/controllers/cartHandler")
@@ -44,12 +44,18 @@ server.put("/user/edit",isAuthenticated, editUser)
 server.delete("/user/delete", isAuthenticated, deleteUser)
 
 server.post('/user/logout', handleLogout)
-// server.post('/user/forgotpassword', handleForgotPassword)
+server.post("/forgotpassword", handleForgotPassword); // Forgot password route
+server.post("/resetpassword", handleResetPassword); // Reset password route
+
 // api routes for product controllers
 
 server.post("/products/add", isAuthenticated, multmid,  handleAddProducts)
-
+server.get("/user/isAdmin", isAuthenticated, verifyAdmin);
 server.get("/products/getproducts", getProducts)
+server.get("/search", searchProducts)
+
+
+
 //catagory
 server.get("/products/smartsecurity",(req,res)=>{handleCategory(req,res,"Smart-Security")})
 server.get("/products/smartlighting",(req,res)=>{handleCategory(req,res,"Smart-Lighting")})

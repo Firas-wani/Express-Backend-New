@@ -4,23 +4,21 @@ const {config} = require("dotenv")
 config("/.env")
 
 
-const verifyUser = async(req , res) =>{
-    try {
+const verifyUser = (req, res) => {
+  try {
     const secretKey = process.env.SECRET_KEY;
-const {token} = req.cookies;
-jwt.verify(secretKey, token,(error, decode)=>{
-    if(error){
-        return messageHandler(res, 400, "not verified")
-    }else{
-res.json({message:"token verified", decode})
-    }
-})
+    const { token } = req.cookies;
 
+    jwt.verify(token, secretKey, (error, decode) => {
+      if (error) {
+        res.json({ message: "not verified" });
+      } else {
+        res.json({ message: "verified", decode });
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-    } catch (error) {
-        console.log(error);
-        
-    }
-}
-
-module.exports = verifyUser
+module.exports = verifyUser;

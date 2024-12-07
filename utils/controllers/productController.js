@@ -66,5 +66,27 @@ const getProducts = async (req, res) => {
     console.log(error);
   }
 };
+const searchProducts = async (req, res) => {
+  try {
+    const { query } = req.query;
 
-module.exports = { handleAddProducts, getProducts };
+    // Check if query exists
+    if (!query) {
+      return res.status(400).json({ message: "Search query is required" });
+    }
+
+    // Perform a case-insensitive search in the `name` and `description` fields
+    const regex = new RegExp(query, "i");
+    const products = await Product.find({
+      $or: [{ name: regex }, { description: regex }],
+    });
+
+    res.status(200).json({ products });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "An error occurred while searching." });
+  }
+};
+
+
+module.exports = { handleAddProducts, getProducts, searchProducts};

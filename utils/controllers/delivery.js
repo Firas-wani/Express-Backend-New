@@ -1,14 +1,10 @@
 const User = require("../../models/userModel")
 
-
-
 const addDeliveryDetails = async (req, res) =>{
     try {
 const userId = req.user;
 const {mobile, fullname, street, landmark, state, city, pincode}  = req.body;
 const credentials = {mobile, fullname, street, landmark, state, city, pincode}    
-
-
 const someEmpty = Object.values(credentials).some(value => !value)
 console.log(someEmpty);
 
@@ -30,3 +26,4 @@ if(user){
 }
 
 module.exports = {addDeliveryDetails}
+
