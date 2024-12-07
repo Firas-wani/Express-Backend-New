@@ -26,7 +26,7 @@ server.use(express.json())
 server.use(bodyParser.json())
 server.use(cors({
     origin:
-    "https://smartappliances.vercel.app/",
+    "https://smartappliances.vercel.app",
 
 credentials:true
 
