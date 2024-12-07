@@ -26,7 +26,8 @@ server.use(express.json())
 server.use(bodyParser.json())
 server.use(cors({
     origin:
-"http://localhost:3000",
+    "https://smartappliances.vercel.app/",
+// "http://localhost:3000",
 credentials:true
 
 }))
