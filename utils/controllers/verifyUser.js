@@ -21,4 +21,6 @@ const verifyUser = (req, res) => {
   }
 };
 
+
 module.exports = verifyUser;
+
